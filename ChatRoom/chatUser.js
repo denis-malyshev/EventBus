@@ -1,18 +1,24 @@
 function ChatUser(name) {
-	this.name=name;
-}
+	var _name=name;
 
-function ChatUserService() {
-	return function  onMessage(eventBus, sender, textMessgae) {
-		return eventBus.postMessage("MESSAGE_ADDED",new Message(sender, textMessgae));		
+	return {
+		"getName": function() {
+			return _name;
+		}
 	};
 }
 
-var ChatUserComponent=function() {
+function ChatUserService() {
 	return {
-		"addButton": function() {
-			$('#user1').append('<input type="button" value="My button">');
+		"onMessage": function(eventBus, sender, textMessgae) {
+			eventBus.postMessage("MESSAGE_ADDED",new Message(sender, textMessgae));	
 		}
-	}
+	};
+}
+
+var ChatUserComponent=function(divId,chatUser) {
+	var selector="#"+divId;
+	$(selector).html(chatUser.getName()+':<input type="textarea" value="">'
+			+'<input type="button" id="btn1" value="send">');
 }
 

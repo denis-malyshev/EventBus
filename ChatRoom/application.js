@@ -1,10 +1,9 @@
-var app=function() {
+function app() {
+	var eventBus=new EventBus();
 	
-	var chatUserComp=new ChatUserComponent();
+	var chatUser1=new ChatUser("Vasya");
+	var chatUserComp=new ChatUserComponent("user1",chatUser1);
+	var chatUserService=new ChatUserService();
 	
-	return {
-		"run": function() {
-			chatUserComp.addButton();
-		}
-	}
+	var chat=new ChatRoom();
 }
