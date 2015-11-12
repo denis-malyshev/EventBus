@@ -8,7 +8,11 @@ function ChatUserService() {
 	};
 }
 
-function ChatUserComponent(comp,chatUser,eventBus) {
-	return 45;
+function ChatUserComponent(chatUser,eventBus) {
+	var parentElement=document.body;
+	var outDiv=document.createElement('div');
+	outDiv.id = 'outDiv';
+	outDiv.innerHTML = 'Ввод прошел успешно.';
+	parentElem.appendChild(outDiv);
 }
 
