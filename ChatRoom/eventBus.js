@@ -1,4 +1,4 @@
-var EventBus = function (name) {
+function EventBus(name) {
 	this.name = name;
 	this.consumers ={};
 };

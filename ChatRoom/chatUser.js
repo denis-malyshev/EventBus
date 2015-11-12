@@ -10,3 +10,7 @@ function ChatUserService() {
 	};
 }
 
+function ChatUserComponent(chatUser,eventBus) {
+
+}
+
