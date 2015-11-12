@@ -4,37 +4,17 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
 <script type="text/javascript" src="chatUser.js"></script>
 <script type="text/javascript" src="application.js"></script>
-<!--
 <script type="text/javascript">
-	var ChatRoomComponent = function(divId) {
-		var selector="#"+divId;
-	return {
-		"addButton" : function() {
-			var div=document.getElementById(divId);
-			var btn=document.createElement("input");
-			btn.type="button";
-			btn.id="newbtn";
-			btn.value="newbtn1";
-			div.appendChild(btn);
-			var btn=document.createElement("input");
-			btn.type="text";
-			btn.id="asd";
-			btn.value="newbtn1";
-			div.appendChild(btn);
-		}
-	}
-	}
-	$(function() {
-		(new ChatRoomComponent("chat").addButton())
-	});
+$(function() {
+	//ChatUserComponent().addButton();
+	app().run();
+});
 </script>
--->
 </head>
 <body>
 	<div id="user1">
 	</div>
 	<div id="user2"></div>
-	Chat div:
 	<div id="chat"></div>
 </body>
 </html>

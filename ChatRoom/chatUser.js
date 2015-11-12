@@ -9,6 +9,10 @@ function ChatUserService() {
 }
 
 var ChatUserComponent=function() {
-	$('#user1').append('<input type="button" value="My button">');
+	return {
+		"addButton": function() {
+			$('#user1').append('<input type="button" value="My button">');
+		}
+	}
 }
 
