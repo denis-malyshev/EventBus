@@ -4,13 +4,11 @@ function ChatUser(name) {
 
 function ChatUserService() {
 	return function  onMessage(eventBus, sender, textMessgae) {
-		return function() {
-			eventBus.postMessage("MESSAGE_ADDED",new Message(sender, textMessgae));
-		}
+		return eventBus.postMessage("MESSAGE_ADDED",new Message(sender, textMessgae));		
 	};
 }
 
-function ChatUserComponent(chatUser,eventBus) {
-
+function ChatUserComponent(comp,chatUser,eventBus) {
+	return 45;
 }
 
