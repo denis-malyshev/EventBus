@@ -8,11 +8,7 @@ function ChatUserService() {
 	};
 }
 
-function ChatUserComponent(chatUser,eventBus) {
-	var parentElement=document.body;
-	var outDiv=document.createElement('div');
-	outDiv.id = 'outDiv';
-	outDiv.innerHTML = 'Ввод прошел успешно.';
-	parentElem.appendChild(outDiv);
+var ChatUserComponent=function() {
+	$('#user1').append('<input type="button" value="My button">');
 }
 

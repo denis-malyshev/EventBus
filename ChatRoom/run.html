@@ -1,17 +1,40 @@
-<!DOCTYPE html>
 <html>
 <head>
-<script type="text/javascript" src="jquery-2.1.4.js"></script>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+<script type="text/javascript" src="chatUser.js"></script>
+<script type="text/javascript" src="application.js"></script>
+<!--
+<script type="text/javascript">
+	var ChatRoomComponent = function(divId) {
+		var selector="#"+divId;
+	return {
+		"addButton" : function() {
+			var div=document.getElementById(divId);
+			var btn=document.createElement("input");
+			btn.type="button";
+			btn.id="newbtn";
+			btn.value="newbtn1";
+			div.appendChild(btn);
+			var btn=document.createElement("input");
+			btn.type="text";
+			btn.id="asd";
+			btn.value="newbtn1";
+			div.appendChild(btn);
+		}
+	}
+	}
+	$(function() {
+		(new ChatRoomComponent("chat").addButton())
+	});
+</script>
+-->
 </head>
 <body>
-	<script type="text/javascript" src="eventBus.js"></script>
 	<div id="user1">
 	</div>
-	<div id="user2">
-	</div>
-	<div id="chat">
-	</div>
+	<div id="user2"></div>
+	Chat div:
+	<div id="chat"></div>
 </body>
 </html>
