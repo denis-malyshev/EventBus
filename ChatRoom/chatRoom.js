@@ -20,9 +20,9 @@ function ChatRoomComponent() {
 
 function ChatRoomService() {
 	return {
-		"onMessage": function(message,chat,chatComponent) {
-			chatRoom.messages.push(message);
-			chatRoomComponent.updateUI(chatRoom);	
+		"onMessage": function(chat,chatComponent) {
+			//chat.messages.push(message);
+			chatComponent.updateUI(chat);	
 		}
 	}
 }

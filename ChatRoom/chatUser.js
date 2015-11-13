@@ -23,7 +23,7 @@ var ChatUserComponent=function(divId,chatUser,eventBus) {
 	$("#btn1").click(function() {
 		var text=$("#area").val();
 		$("#chatarea").val(text);
-		//ChatUserService().onMessage(eventBus,chatUser,text);
+		ChatUserService().onMessage(eventBus,chatUser,text);
 	})
 }
 
