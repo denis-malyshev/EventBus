@@ -6,12 +6,13 @@ function ChatUser(name) {
 			return _name;
 		}
 	};
-}
+};
 
 function ChatUserService() {
 	return {
 		"onMessage": function(eventBus, sender, textMessgae) {
-			eventBus.postMessage("MESSAGE_ADDED",new Message(sender, textMessgae));	
+			//eventBus.postMessage("MESSAGE_ADDED",new Message(sender, textMessgae));
+			eventBus.postMessage(textMessgae);
 		}
 	};
 }

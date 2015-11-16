@@ -7,22 +7,31 @@ function ChatRoom(id) {
 			return _id;
 		}
 	};
+};
+
+function ChatRoomComponent(chat) {
+	var selector="#"+chat.getId();
+	$(selector).html('<textarea type="textarea" id="chatarea" rows="10" cols="35">');
 }
 
-function ChatRoomComponent() {
+function ChatRoomController() {
 	return {
 		"updateUI": function(chat) {
 			var selector="#"+chat.getId();
-			$(selector).html('<textarea type="textarea" id="chatarea" rows="10" cols="35" value="">');
+			//var text=$("#area").val();
+			/*for(var i=0;i<chat.messages.length;i++) {
+				text+=chat.messages[i];
+			}*/
+			$(selector).val("text");
 		}
 	};
 }
 
 function ChatRoomService() {
 	return {
-		"onMessage": function(chat,chatComponent) {
+		"onMessage": function(chat,chatControl) {
 			//chat.messages.push(message);
-			chatComponent.updateUI(chat);	
+			chatControl.updateUI(chat);
 		}
-	}
+	};
 }
