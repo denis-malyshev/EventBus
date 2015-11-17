@@ -6,9 +6,9 @@ function ChatRoom(divId,chatId) {
 ChatRoom.prototype.addMessage=function(message) {
 	var length=this.messages.length;
 	this.messages[length]={
-			sender:message.getSender(),
-			message:message.getTextMessage()
-	}
+			sender:message.sender,
+			message:message.textMessage
+	};
 }
 
 function ChatRoomComponent(chat) {
