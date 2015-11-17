@@ -7,9 +7,9 @@ function app() {
 	var chatUserComp1=new ChatUserComponent("user1",chatUser1,eventBus);
 	var chatUserComp2=new ChatUserComponent("user2",chatUser2,eventBus);
 
-	var chat=new ChatRoom("chat","chat1");
-	var chatComp=new ChatRoomComponent(chat);
-	var chatRoomService=new ChatRoomService(chat);	
+	var chat=new ChatRoom("chat1");
+	var chatView=new ChatRoomView("chat",chat,eventBus);
+	var chatRoomService=new ChatRoomService(chat,chatView,eventBus);	
 	
 	eventBus.registerConsumer("MESSAGE_ADDED",function(message) {
 		chatRoomService.onMessage(message);

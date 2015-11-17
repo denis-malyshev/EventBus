@@ -1,6 +1,5 @@
-function ChatRoom(divId,chatId) {
+function ChatRoom(chatId) {
 	this.messages=[];
-	this.divId=divId;
 	this.id=chatId;
 };
 ChatRoom.prototype.addMessage=function(message) {
@@ -10,30 +9,38 @@ ChatRoom.prototype.addMessage=function(message) {
 			message:message.textMessage
 	};
 }
-
-function ChatRoomComponent(chat) {
-	var selector="#"+chat.divId;
+function ChatRoomView(divId,chat,eventBus) {
+	var selector="#"+divId;
 	$(selector).html('<textarea type="textarea" id="'+chat.id+'" rows="10" cols="35">');
-}
 
-function ChatRoomController() {
-	return {
-		"updateUI": function(chat) {
-			var selector="#"+chat.id;
-			var text="";
-			for(var i=0;i<chat.messages.length;i++) {
-				text+=chat.messages[i].sender+": "+chat.messages[i].message+"\n";
+	eventBus.registerConsumer("MODEL_UPDATED",function() {
+		renderUI();
+	});
+
+	var renderUI=function() {
+		var selector="#"+chat.id;
+		var text="";
+		var lastSender="";
+		for(var i=0;i<chat.messages.length;i++) {
+			if(lastSender!=chat.messages[i].sender)
+			{
+				text+=chat.messages[i].sender+":\n"+chat.messages[i].message+"\n";
+				lastSender=chat.messages[i].sender;
 			}
-			$(selector).val(text);
+			else
+				text+=chat.messages[i].message+"\n";
 		}
+		$("#"+chat.id).val(text);
 	};
 }
 
-function ChatRoomService(chat) {
+function ChatRoomService(chat,chatView,eventBus) {
 	return {
 		"onMessage": function(message) {
 			chat.addMessage(message);
-			ChatRoomController().updateUI(chat);
+			eventBus.postMessage("MODEL_UPDATED",function() {
+				console.log("update model");
+			});
 		}
 	};
 }
