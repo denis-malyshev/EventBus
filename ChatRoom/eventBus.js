@@ -1,16 +1,17 @@
 function EventBus() {
-	this.consumers =[];
+	this.consumers ={};
 };
-EventBus.prototype.registerConsumer = function (consumer) {
-	this.consumers.push(consumer);
-	console.log("added " + this.consumers.length + " consumer");
+EventBus.prototype.registerConsumer = function (type,consumer) {
+	if(!this.consumers[type])
+		this.consumers[type]=[];
+	this.consumers[type].push(consumer);
+	console.log("added " + this.consumers[type].length + " consumer");
 };
-EventBus.prototype.postMessage = function (message) {
-	for (var i = 0; i < this.consumers.length; i++) {
-		var callback=this.consumers[i];
-		alert(callback);
+EventBus.prototype.postMessage = function (type,message) {
+	for (var i = 0; i < this.consumers[type].length; i++) {
+		var callback=this.consumers[type][i];
 		setTimeout(function () {
 			callback(message);
-		}, 10);
+		}, 0);
 	}
 };

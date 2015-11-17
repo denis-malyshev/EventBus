@@ -1,36 +1,29 @@
-function ChatRoom(id) {
+function ChatRoom(divId) {
 	this.messages=[];
-	var _id=id;
-
-	return {
-		"getId": function() {
-			return _id;
-		}
-	};
 };
 
-function ChatRoomComponent(chat) {
-	var selector="#"+chat.getId();
+function ChatRoomComponent(divId) {
+	var selector="#"+divId;
 	$(selector).html('<textarea type="textarea" id="chatarea" rows="10" cols="35">');
 }
 
 function ChatRoomController() {
 	return {
 		"updateUI": function(chat) {
-			var selector="#"+chat.getId();
-			//var text=$("#area").val();
-			/*for(var i=0;i<chat.messages.length;i++) {
-				text+=chat.messages[i];
-			}*/
-			$(selector).val("text");
+			var selector="#chatarea";
+			var text="";
+			for(var i=0;i<chat.messages.length;i++) {
+				text+=chat.messages[i]+"\n";
+			}
+			$(selector).val(text);
 		}
 	};
 }
 
-function ChatRoomService() {
+function ChatRoomService(chat,chatControl) {
 	return {
-		"onMessage": function(chat,chatControl) {
-			//chat.messages.push(message);
+		"onMessage": function(message) {
+			chat.messages.push(message);
 			chatControl.updateUI(chat);
 		}
 	};

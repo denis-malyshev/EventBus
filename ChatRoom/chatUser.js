@@ -12,7 +12,7 @@ function ChatUserService() {
 	return {
 		"onMessage": function(eventBus, sender, textMessgae) {
 			//eventBus.postMessage("MESSAGE_ADDED",new Message(sender, textMessgae));
-			eventBus.postMessage(textMessgae);
+			eventBus.postMessage("MESSAGE_ADDED",textMessgae);
 		}
 	};
 }
@@ -22,8 +22,7 @@ var ChatUserComponent=function(divId,chatUser,eventBus) {
 	$(selector).html(chatUser.getName()+':<input type="textarea" id="area" value="">'
 			+'<input type="button" id="btn1" value="send">');
 	$("#btn1").click(function() {
-		var text=$("#area").val();
-		$("#chatarea").val(text);
+		var text=$("#area").val();		
 		ChatUserService().onMessage(eventBus,chatUser,text);
 	})
 }
