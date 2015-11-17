@@ -5,8 +5,7 @@ function app() {
 	var chatUser2=new ChatUser("Masha");
 
 	var chatUserComp1=new ChatUserComponent("user1",chatUser1,eventBus);
-	//var chatUserComp2=new ChatUserComponent("user2",chatUser2,eventBus);
-	var chatUserService=new ChatUserService();
+	var chatUserComp2=new ChatUserComponent("user2",chatUser2,eventBus);
 
 	var chat=new ChatRoom("chat","chat1");
 	var chatComp=new ChatRoomComponent(chat);

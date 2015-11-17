@@ -3,6 +3,13 @@ function ChatRoom(divId,chatId) {
 	this.divId=divId;
 	this.id=chatId;
 };
+ChatRoom.prototype.addMessage=function(message) {
+	var length=this.messages.length;
+	this.messages[length]={
+			sender:message.getSender(),
+			message:message.getTextMessage()
+	}
+}
 
 function ChatRoomComponent(chat) {
 	var selector="#"+chat.divId;
@@ -15,7 +22,7 @@ function ChatRoomController() {
 			var selector="#"+chat.id;
 			var text="";
 			for(var i=0;i<chat.messages.length;i++) {
-				text+=chat.messages[i]+"\n";
+				text+=chat.messages[i].sender+": "+chat.messages[i].message+"\n";
 			}
 			$(selector).val(text);
 		}
@@ -25,7 +32,7 @@ function ChatRoomController() {
 function ChatRoomService(chat,chatControl) {
 	return {
 		"onMessage": function(message) {
-			chat.messages.push(message);
+			chat.addMessage(message);
 			chatControl.updateUI(chat);
 		}
 	};
