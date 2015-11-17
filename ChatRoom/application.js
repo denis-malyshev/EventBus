@@ -9,8 +9,7 @@ function app() {
 
 	var chat=new ChatRoom("chat","chat1");
 	var chatComp=new ChatRoomComponent(chat);
-	var chatController=new  ChatRoomController();
-	var chatRoomService=new ChatRoomService(chat,chatController);	
+	var chatRoomService=new ChatRoomService(chat);	
 	
 	eventBus.registerConsumer("MESSAGE_ADDED",function(message) {
 		chatRoomService.onMessage(message);

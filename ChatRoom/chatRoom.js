@@ -29,11 +29,11 @@ function ChatRoomController() {
 	};
 }
 
-function ChatRoomService(chat,chatControl) {
+function ChatRoomService(chat) {
 	return {
 		"onMessage": function(message) {
 			chat.addMessage(message);
-			chatControl.updateUI(chat);
+			ChatRoomController().updateUI(chat);
 		}
 	};
 }
