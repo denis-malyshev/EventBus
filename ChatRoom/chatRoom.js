@@ -1,16 +1,18 @@
-function ChatRoom(divId) {
+function ChatRoom(divId,chatId) {
 	this.messages=[];
+	this.divId=divId;
+	this.id=chatId;
 };
 
-function ChatRoomComponent(divId) {
-	var selector="#"+divId;
-	$(selector).html('<textarea type="textarea" id="chatarea" rows="10" cols="35">');
+function ChatRoomComponent(chat) {
+	var selector="#"+chat.divId;
+	$(selector).html('<textarea type="textarea" id="'+chat.id+'" rows="10" cols="35">');
 }
 
 function ChatRoomController() {
 	return {
 		"updateUI": function(chat) {
-			var selector="#chatarea";
+			var selector="#"+chat.id;
 			var text="";
 			for(var i=0;i<chat.messages.length;i++) {
 				text+=chat.messages[i]+"\n";
