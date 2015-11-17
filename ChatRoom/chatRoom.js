@@ -5,7 +5,8 @@ ChatRoom.prototype.addMessage=function(message) {
 	var length=this.messages.length;
 	this.messages[length]={
 			sender:message.sender,
-			message:message.textMessage
+			message:message.textMessage,
+			time:message.time
 	};
 }
 function ChatRoomView(divId,chat,eventBus) {
@@ -24,11 +25,13 @@ function ChatRoomView(divId,chat,eventBus) {
 		var lastSender="";
 		for(var i=0;i<chat.messages.length;i++) {
 			if(lastSender!=chat.messages[i].sender) {
-				text+=chat.messages[i].sender+":<br>"+chat.messages[i].message+"<br>";
+				text+=chat.messages[i].sender+":<br>"+chat.messages[i].time+
+				": "+chat.messages[i].message+"<br>";
 				lastSender=chat.messages[i].sender;
 			}
 			else
-				text+=chat.messages[i].message+"<br>";
+				text+=chat.messages[i].time+
+				": "+chat.messages[i].message+"<br>";
 		}
 		$(selector).html(text);
 	};
