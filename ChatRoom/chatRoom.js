@@ -34,6 +34,7 @@ function ChatRoomView(divId,chat,eventBus) {
 }
 
 function ChatRoomService(chat,chatView,eventBus) {
+
 	return {
 		"onMessage": function(message) {
 			chat.addMessage(message);
