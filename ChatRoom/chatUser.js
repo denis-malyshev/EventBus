@@ -22,9 +22,11 @@ var ChatUserComponent=function(divId,chatUser,eventBus) {
 	$(selector).html(chatUser.getName()+':<input type="textarea" id="'+textAreaId+'" value="">'
 			+'<input type="button" id="btn1" value="send">');
 	$("#btn1").click(function() {
-		var text=$("#"+textAreaId).val();		
-		ChatUserService().onMessage(eventBus,chatUser,text);
-		$("#"+textAreaId).val("");
+		var text=$("#"+textAreaId).val();
+		if(text!="") {
+			ChatUserService().onMessage(eventBus,chatUser,text);
+			$("#"+textAreaId).val("");
+		}
 	})
 }
 
