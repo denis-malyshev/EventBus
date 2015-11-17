@@ -16,7 +16,7 @@ ChatUser.prototype.getTextAreaId=function() {
 function ChatUserService() {
 	return {
 		"onMessage": function(eventBus, sender, textMessage) {
-			eventBus.postMessage("MESSAGE_ADDED",new Message(sender,textMessage));
+			eventBus.postMessage("MESSAGE_ADDED",new Message(sender.getName(),textMessage));
 		}
 	};
 }
