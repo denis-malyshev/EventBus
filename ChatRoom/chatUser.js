@@ -7,12 +7,12 @@ function ChatUser(name) {
 function ChatUserService() {
 
 	var isEmpty=function(message) {
-		 return (/\S/.test(message));
+		 return (!/\S/.test(message));
 	}
 
 	return {
 		"onMessage": function(eventBus, sender, textMessage) {
-			if(isEmpty(textMessage)) {
+			if(!isEmpty(textMessage)) {
 				eventBus.postMessage("MESSAGE_ADDED",new Message(sender.name,textMessage));
 				eventBus.postMessage("MESSAGE_SENT",sender);
 			}
@@ -29,7 +29,7 @@ function ChatUserView(divId,chatUser,eventBus) {
 
 	eventBus.registerConsumer("MESSAGE_SENT",function(sender) {
 		renderUI(sender);
-	})
+	});
 
 	$("#"+btnId).click(function() {
 		ChatUserService().onMessage(eventBus,chatUser,$("#"+textAreaId).val());

@@ -1,6 +1,5 @@
 function ChatRoom(chatId) {
 	this.messages=[];
-	this.id=chatId;
 };
 ChatRoom.prototype.addMessage=function(message) {
 	var length=this.messages.length;
@@ -11,25 +10,27 @@ ChatRoom.prototype.addMessage=function(message) {
 }
 function ChatRoomView(divId,chat,eventBus) {
 	var selector="#"+divId;
-	$(selector).html('<textarea type="textarea" id="'+chat.id+'" rows="10" cols="35">');
 
 	eventBus.registerConsumer("MODEL_UPDATED",function() {
 		renderUI();
 	});
 
+	eventBus.registerConsumer("MESSAGE_ADDED",function(message) {
+		ChatRoomService(chat,this,eventBus).onMessage(message);
+	});
+
 	var renderUI=function() {
-		var selector="#"+chat.id;
 		var text="";
 		var lastSender="";
 		for(var i=0;i<chat.messages.length;i++) {
 			if(lastSender!=chat.messages[i].sender) {
-				text+=chat.messages[i].sender+":\n"+chat.messages[i].message+"\n";
+				text+=chat.messages[i].sender+":<br>"+chat.messages[i].message+"<br>";
 				lastSender=chat.messages[i].sender;
 			}
 			else
-				text+=chat.messages[i].message+"\n";
+				text+=chat.messages[i].message+"<br>";
 		}
-		$("#"+chat.id).val(text);
+		$(selector).html(text);
 	};
 }
 
