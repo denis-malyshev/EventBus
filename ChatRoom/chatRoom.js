@@ -22,8 +22,7 @@ function ChatRoomView(divId,chat,eventBus) {
 		var text="";
 		var lastSender="";
 		for(var i=0;i<chat.messages.length;i++) {
-			if(lastSender!=chat.messages[i].sender)
-			{
+			if(lastSender!=chat.messages[i].sender) {
 				text+=chat.messages[i].sender+":\n"+chat.messages[i].message+"\n";
 				lastSender=chat.messages[i].sender;
 			}
