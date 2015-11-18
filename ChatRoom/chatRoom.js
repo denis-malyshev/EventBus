@@ -1,4 +1,4 @@
-function ChatRoom(chatId) {
+function ChatRoom() {
 	this.messages=[];
 };
 ChatRoom.prototype.addMessage=function(message) {

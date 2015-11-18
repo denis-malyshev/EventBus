@@ -7,5 +7,5 @@ function app() {
 	var chatUserView1=new ChatUserView("user1",chatUser1,eventBus);
 	var chatUserView2=new ChatUserView("user2",chatUser2,eventBus);
 
-	var chatView=new ChatRoomView("chat",new ChatRoom(),eventBus);	
+	new ChatRoomView("chat",new ChatRoom(),eventBus);	
 }
