@@ -21,20 +21,24 @@ function ChatUserService() {
 }
 
 function ChatUserView(divId,chatUser,eventBus) {
-	var selector="#"+divId;
+	var innerHTML='<div id="'+divId+'"></div>';
+	document.body.innerHTML+=innerHTML;
 	var textAreaId=chatUser.textAreaId;
 	var btnId=chatUser.btnId;
-	$(selector).html(chatUser.name+':<input type="textarea" id="'+textAreaId+'" value="">'
-			+'<input type="button" id="'+btnId+'" value="send">');
-
+	$("#"+divId).html('<div>'+chatUser.name+'</div>'+
+			'<div><textarea id="'+textAreaId+'"></textarea></div>'
+			+'<div><button id="'+btnId+'">Send</button></div>');
+	
+	$(document).ready(function() {
+		$("#"+btnId).click(function() {
+			ChatUserService().onMessage(eventBus,chatUser,$("#"+textAreaId).val());
+		});
+	});
+	
 	eventBus.registerConsumer("MESSAGE_SENT",function(sender) {
 		renderUI(sender);
 	});
-
-	$("#"+btnId).click(function() {
-		ChatUserService().onMessage(eventBus,chatUser,$("#"+textAreaId).val());
-	});
-
+	
 	var renderUI=function(sender) {
 		$("#"+sender.textAreaId).val("");
 	}

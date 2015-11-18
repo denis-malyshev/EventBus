@@ -10,7 +10,8 @@ ChatRoom.prototype.addMessage=function(message) {
 	};
 }
 function ChatRoomView(divId,chat,eventBus) {
-	var selector="#"+divId;
+	var innerHTML='<div id="'+divId+'"></div>';
+	document.body.innerHTML+=innerHTML;
 
 	eventBus.registerConsumer("MODEL_UPDATED",function() {
 		renderUI();
@@ -19,7 +20,7 @@ function ChatRoomView(divId,chat,eventBus) {
 	eventBus.registerConsumer("MESSAGE_ADDED",function(message) {
 		ChatRoomService(chat,this,eventBus).onMessage(message);
 	});
-
+	
 	var renderUI=function() {
 		var text="";
 		var lastSender="";
@@ -33,7 +34,7 @@ function ChatRoomView(divId,chat,eventBus) {
 				text+=chat.messages[i].time+
 				": "+chat.messages[i].message+"<br>";
 		}
-		$(selector).html(text);
+		$("#"+divId).html(text);
 	};
 }
 
