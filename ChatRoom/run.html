@@ -1,17 +1,28 @@
 <html>
 <head>
-<script type="text/javascript"
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
-<script type="text/javascript" src="chatUser.js"></script>
-<script type="text/javascript" src="application.js"></script>
-<script type="text/javascript" src="eventBus.js"></script>
-<script type="text/javascript" src="chatRoom.js"></script>
-<script type="text/javascript" src="message.js"></script>
-<script type="text/javascript">
-$(function() {
-	new app();
-});
-</script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+    <script type="text/javascript" src="chatUser.js"></script>
+    <script type="text/javascript" src="application.js"></script>
+    <script type="text/javascript" src="eventBus.js"></script>
+    <script type="text/javascript" src="chatRoom.js"></script>
+    <script type="text/javascript" src="message.js"></script>
+    <script type="text/javascript">
+        var users = [];
+        users.push(new ChatUser("Vasya1"));
+        users.push(new ChatUser("Vasya2"));
+        users.push(new ChatUser("Vasya3"));
+        users.push(new ChatUser("Vasya4"));
+        users.push(new ChatUser("Vasya5"));
+
+        var eb=new EventBus();
+        var eb1=new EventBus();
+
+        $(function () {
+            (new app(users, new ChatRoom(),eb)).launch();
+            (new app(users, new ChatRoom(),eb)).launch();
+        });
+    </script>
 </head>
 <body>
 

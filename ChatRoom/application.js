@@ -1,14 +1,13 @@
-function app() {
-	var eventBus=new EventBus();
+function app(users, chat, eventBus) {
 
-	var chatUser1=new ChatUser("Vasya");
-	var chatUser2=new ChatUser("Masha");
-
-	var chatUserView1=new ChatUserView("user1",chatUser1,eventBus);
-	var chatUserView2=new ChatUserView("user2",chatUser2,eventBus);
-	var chatUserService=new ChatUserService(eventBus);
-
-	var chat=new ChatRoom();
-	var chatView=new ChatRoomView("chat",eventBus);
-	var chatRoomService=new ChatRoomService(chat,chatView,eventBus);
+    return {
+        "launch": function () {
+            for (var i = 0; i < users.length; i++) {
+                new ChatUserView("user" + Math.floor(Math.random() * 10e5)+i, users[i], eventBus);
+            }
+            new ChatUserService(eventBus);
+            new ChatRoomView("chat" + Math.floor(Math.random() * 10e5), eventBus);
+            new ChatRoomService(chat, eventBus);
+        }
+    };
 }
