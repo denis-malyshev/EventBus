@@ -7,13 +7,17 @@ function ChatUser(name) {
 function ChatUserService(eventBus) {
 	var isEmpty=function(message) {
 		return (!/\S/.test(message));
-	}
+	};
 
-	return {
-		"onMessage": function(eventBus, sender, text) {
-			eventBus.postMessage("MESSAGE_SENT", new Message(sender,text));
+	var onMessage=function(eventBus, message) {
+		if(!isEmpty(message.textMessage)) {
+			eventBus.postMessage(message.sender+"_TEXT_AREA");
+			eventBus.postMessage("SENT",message);
 		}
 	};
+	eventBus.registerConsumer("SEND",function(message) {
+		onMessage(eventBus,message);
+	});
 }
 
 function ChatUserView(divId,chatUser,eventBus) {
@@ -21,20 +25,25 @@ function ChatUserView(divId,chatUser,eventBus) {
 	document.body.innerHTML+=innerHTML;
 	var textAreaId=chatUser.textAreaId;
 	var btnId=chatUser.btnId;
+	
+	var renderUI=function(textAreaId) {
+		$("#"+textAreaId).val("");
+	};
+
 	$("#"+divId).html('<div>'+chatUser.name+'</div>'+
 			'<div><textarea id="'+textAreaId+'"></textarea></div>'
 			+'<div><button id="'+btnId+'">Send</button></div>');
 
+	eventBus.registerConsumer(chatUser.name+"_TEXT_AREA",function() {
+		renderUI(textAreaId);
+	});
+
 	$(document).ready(function() {
 		$("#"+btnId).click(function() {
-			eventBus.postMessage("MESSAGE_ADDED",new Message(chatUser.name,$("#"+textAreaId).val()));
+			eventBus.postMessage("SEND",new Message(chatUser.name,$("#"+textAreaId).val()));
 		});
 	});
 
-	return {
-		"renderUI": function(sender) {
-			$("#"+sender.textAreaId).val("");
-		}
-	}
+
 }
 

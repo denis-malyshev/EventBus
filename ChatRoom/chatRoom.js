@@ -10,36 +10,39 @@ ChatRoom.prototype.addMessage=function(message) {
 	};
 }
 
-function ChatRoomView(divId) {
+function ChatRoomView(divId,eventBus) {	
 	var innerHTML='<div id="'+divId+'"></div>';
 	document.body.innerHTML+=innerHTML;
 
-	return {
-		"renderUI": function(messages) {
-			var text="";
-			var lastSender="";
-			for(var i=0;i<messages.length;i++) {
-				if(lastSender!=messages[i].sender) {
-					text+=messages[i].sender+":<br>"+messages[i].time+
-					": "+messages[i].message+"<br>";
-					lastSender=messages[i].sender;
-				}
-				else {
-					text+=messages[i].time+
-					": "+messages[i].message+"<br>";
-				}
+	var renderUI=function(messages) {
+		var text="";
+		var lastSender="";
+		for(var i=0;i<messages.length;i++) {
+			if(lastSender!=messages[i].sender) {
+				text+=messages[i].sender+":<br>"+messages[i].time+
+				": "+messages[i].message+"<br>";
+				lastSender=messages[i].sender;
 			}
-			$("#"+divId).html(text);
+			else {
+				text+=messages[i].time+
+				": "+messages[i].message+"<br>";
+			}
 		}
-	};
+		$("#"+divId).html(text);
+	}
+	
+	eventBus.registerConsumer("MODEL_UPDATED",function(messages) {
+		renderUI(messages);
+	});
 }
 
 function ChatRoomService(chat,chatView,eventBus) {
-
-	return {
-		"onMessage": function(message) {
-			chat.addMessage(message);
-			eventBus.postMessage("MODEL_UPDATED",chat.messages);
-		}
+	var onMessage=function(message) {
+		chat.addMessage(message);
+		eventBus.postMessage("MODEL_UPDATED",chat.messages);
 	};
+
+	eventBus.registerConsumer("SENT",function(message) {
+		onMessage(message)
+	});
 }

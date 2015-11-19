@@ -6,20 +6,9 @@ function app() {
 
 	var chatUserView1=new ChatUserView("user1",chatUser1,eventBus);
 	var chatUserView2=new ChatUserView("user2",chatUser2,eventBus);
-	var chatUserService=new ChatUserService();
+	var chatUserService=new ChatUserService(eventBus);
 
 	var chat=new ChatRoom();
-	var chatView=new ChatRoomView("chat");
-	
-	eventBus.registerConsumer("MODEL_UPDATED",function() {
-		chatView.renderUI(chat.messages);
-	});
-	
-	eventBus.registerConsumer("MESSAGE_ADDED",function(message) {
-		chatUserService.onMessage(eventBus,chatUser1);
-	});
-	
-	eventBus.registerConsumer("MESSAGE_ADDED",function(message) {
-		chatUserService.onMessage(eventBus,chatUser2);
-	});
+	var chatView=new ChatRoomView("chat",eventBus);
+	var chatRoomService=new ChatRoomService(chat,chatView,eventBus);
 }
