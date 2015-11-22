@@ -7,20 +7,25 @@
     <script type="text/javascript" src="eventBus.js"></script>
     <script type="text/javascript" src="chatRoom.js"></script>
     <script type="text/javascript" src="message.js"></script>
+    <script type="text/javascript" src="lib/unit.js"></script>
     <script type="text/javascript">
-        var users = [];
-        users.push(new ChatUser("Vasya1"));
-        users.push(new ChatUser("Vasya2"));
-        users.push(new ChatUser("Vasya3"));
-        users.push(new ChatUser("Vasya4"));
-        users.push(new ChatUser("Vasya5"));
+        var names = ["Vasya", "Petya", "Masha", "Dima", "Pasha", "Sanya","Danil","Ivan"];
 
-        var eb=new EventBus();
-        var eb1=new EventBus();
+        function generationUsers(count) {
+			var users = [];
+            for (var i = 0; i < count; i++) {
+                var k = Math.floor(Math.random() * names.length);
+                users.push(new ChatUser(names[k]));
+            }
+            return users;
+        }
 
+        var eb = new EventBus();
+	
         $(function () {
-            (new app(users, new ChatRoom(),eb)).launch();
-            (new app(users, new ChatRoom(),eb)).launch();
+            (new ChatUserService(eb));
+            (new app(generationUsers(2), eb)).launch();
+            (new app(generationUsers(3), eb)).launch();
         });
     </script>
 </head>

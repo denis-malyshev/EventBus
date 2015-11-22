@@ -1,19 +1,22 @@
 function ChatRoom() {
     this.messages = [];
+    this.id ="chat-" + Math.floor(Math.random() * 10e3);
 };
 ChatRoom.prototype.addMessage = function (message) {
     var length = this.messages.length;
-    this.messages[length] = {
+    this.messages[length] ={
         sender: message.sender,
         message: message.textMessage,
         time: message.time
     };
 }
 
-function ChatRoomView(divId, eventBus) {
-    var innerHTML = '<div id="' + divId + '"></div>';
+function ChatRoomComponent(chatId) {
+    var innerHTML = '<div id="' + chatId + '">empty chat</div>';
     document.body.innerHTML += innerHTML;
+}
 
+function ChatRoomView(chatId,eventBus) {
     var renderUI = function (messages) {
         var text = "";
         var lastSender = "";
@@ -28,21 +31,22 @@ function ChatRoomView(divId, eventBus) {
                     ": " + messages[i].message + "<br>";
             }
         }
-        $("#" + divId).html(text);
+        $("#" + chatId).html(text);
     }
 
-    eventBus.registerConsumer("MODEL_UPDATED", function (messages) {
+    eventBus.registerConsumer(chatId+"_MODEL_UPDATED", function (messages) {
         renderUI(messages);
     });
 }
 
-function ChatRoomService(chat, eventBus) {
-    var onMessage = function (message) {
-        chat.addMessage(message);
-        eventBus.postMessage("MODEL_UPDATED", chat.messages);
-    };
+function ChatRoomService(chat,eventBus) {
 
-    eventBus.registerConsumer("SENT", function (message) {
-        onMessage(message)
+    function onMessage(message) {
+        chat.addMessage(message);
+        eventBus.postMessage(chat.id+"_MODEL_UPDATED", chat.messages);
+    };
+    
+    eventBus.registerConsumer(chat.id, function (message) {
+        onMessage(message);
     });
 }

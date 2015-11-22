@@ -1,13 +1,20 @@
-function app(users, chat, eventBus) {
-
+function app(users, eventBus) {
+    
+    var chat;
+    var chatRoomView;
+    var chatRoomService;
+    var chatRoomComponent;
+    
     return {
         "launch": function () {
+			chat=new ChatRoom();
+            chatRoomView=new ChatRoomView(chat.id,eventBus);
+            chatRoomService=new ChatRoomService(chat, eventBus);
             for (var i = 0; i < users.length; i++) {
-                new ChatUserView("user" + Math.floor(Math.random() * 10e5)+i, users[i], eventBus);
+				users[i].chatId=chat.id;
+                new ChatUserComponent("user" + Math.floor(Math.random() * 10e5) + i, users[i], eventBus);
             }
-            new ChatUserService(eventBus);
-            new ChatRoomView("chat" + Math.floor(Math.random() * 10e5), eventBus);
-            new ChatRoomService(chat, eventBus);
+            chatRoomComponent=new ChatRoomComponent(chat.id);
         }
     };
 }
