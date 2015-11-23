@@ -24,7 +24,7 @@ describe("Test app", function() {
 	});
 	
 	it("check the state of the chat after adding first message", function() {
-		chat.messages.push(new Message("Vasya","Hello",""));
+		chat.addMessage(new Message("Vasya","Hello"));
 		unitjs.assert.equal(chat.messages.length,1);
 	});
 	
