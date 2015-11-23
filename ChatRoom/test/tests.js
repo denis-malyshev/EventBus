@@ -6,16 +6,11 @@ var chatRoomView;
 
 describe("Test app", function() {
 	before(function() {
-		console.log(new Date().toLocaleTimeString()+": START ALL TEST");
 		chat=new ChatRoom("234");
 		eb=new EventBus();
 		chatUserService=new ChatUserService(eb);
         chatRoomService=new ChatRoomService(chat, eb);
 		chatRoomView=new ChatRoomView(chat.id, eb);
-	});
-	
-	after(function() {
-		console.log(new Date().toLocaleTimeString()+": THE END OF TESTS");
 	});
 	
 	it("check the initial state of the chat", function() {
@@ -39,10 +34,19 @@ describe("Test app", function() {
 		},10);
 	});
 	
-	it("testing send message",function(done) {
+	it("send message",function(done) {
 		eb.postMessage("SEND", new Message("Masha","test text",chat.id));
 		setTimeout(function() {
 			unitjs.assert.equal(chat.messages.length,3);
+			done();
+		},10);			
+	});
+	
+	it("send empty message",function(done) {
+		var length=chat.messages.length;
+		eb.postMessage("SEND", new Message("Masha","    ",chat.id));
+		setTimeout(function() {
+			unitjs.assert.equal(length,length);
 			done();
 		},10);			
 	});
