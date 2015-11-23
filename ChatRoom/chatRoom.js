@@ -1,6 +1,6 @@
-function ChatRoom() {
+function ChatRoom(id) {
     this.messages = [];
-    this.id ="chat-" + Math.floor(Math.random() * 10e3);
+    this.id ="chat-" + id;
 };
 ChatRoom.prototype.addMessage = function (message) {
     var length = this.messages.length;
@@ -33,9 +33,8 @@ function ChatRoomView(chatId,eventBus) {
         }
         $("#" + chatId).html(text);
     }
-
     eventBus.registerConsumer(chatId+"_MODEL_UPDATED", function (messages) {
-        renderUI(messages);
+		renderUI(messages);
     });
 }
 

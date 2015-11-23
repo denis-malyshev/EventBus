@@ -24,8 +24,8 @@
 	
         $(function () {
             (new ChatUserService(eb));
-            (new app(generationUsers(2), eb)).launch();
-            (new app(generationUsers(3), eb)).launch();
+            (new app(generationUsers(2),new ChatRoom("24"), eb)).launch();
+            (new app(generationUsers(3),new ChatRoom("234"), eb)).launch();
         });
     </script>
 </head>
