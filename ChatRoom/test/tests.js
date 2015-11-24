@@ -4,7 +4,7 @@ var chatUserService;
 var chatRoomService;
 var chatRoomView;
 
-describe("Test app", function() {
+describe("Chat testing", function() {
 	before(function() {
 		chat=new ChatRoom("234");
 		eb=new EventBus();
@@ -13,20 +13,21 @@ describe("Test app", function() {
 		chatRoomView=new ChatRoomView(chat.id, eb);
 	});
 	
-	it("check the initial state of the chat", function() {
+	it("Checking the initial state of the chat", function() {
 		unitjs.assert.equal(chat.messages.length,0);	
 	});
 	
-	it("check the state of the chat after adding first message", function() {
+	it("Checking the state of the chat after adding first message", function() {
+		var length=chat.messages.length;
 		chat.addMessage(new Message("Vasya","Hello"));
-		unitjs.assert.equal(chat.messages.length,1);
+		unitjs.assert.equal(chat.messages.length,length+1);
 	});
 	
-	it("check of the chat contents", function() {
+	it("Checking of the chat contents", function() {
 		unitjs.assert.equal(chat.messages[chat.messages.length-1].message,"Hello");
 	});
 	
-	it("adding message with eb", function(done) {
+	it("Adding message with eventBus", function(done) {
 		eb.postMessage(chat.id, new Message("Vasya","hello",chat.id));
 		setTimeout(function() {
 			unitjs.assert.equal(chat.messages[chat.messages.length-1].message,"hello");
@@ -34,15 +35,16 @@ describe("Test app", function() {
 		},10);
 	});
 	
-	it("send message",function(done) {
+	it("Checking the message sending",function(done) {
+		var length=chat.messages.length;
 		eb.postMessage("SEND", new Message("Masha","test text",chat.id));
 		setTimeout(function() {
-			unitjs.assert.equal(chat.messages.length,3);
+			unitjs.assert.equal(chat.messages.length,length+1);
 			done();
 		},10);			
 	});
 	
-	it("send empty message",function(done) {
+	it("Send empty message",function(done) {
 		var length=chat.messages.length;
 		eb.postMessage("SEND", new Message("Masha","    ",chat.id));
 		setTimeout(function() {
