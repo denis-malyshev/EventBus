@@ -52,5 +52,6 @@ describe("Chat testing", function() {
 			done();
 		},10);			
 	});
+
 });
 

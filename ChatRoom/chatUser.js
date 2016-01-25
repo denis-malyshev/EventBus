@@ -39,3 +39,4 @@ function ChatUserComponent(divId, chatUser, eventBus) {
     });
 }
 
+

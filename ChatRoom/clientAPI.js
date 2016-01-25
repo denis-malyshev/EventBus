@@ -95,35 +95,11 @@ function readAllChats(token, userId) {
 	});
 };
 
-function executeRequest(url, requestType, data) {
-	var data = JSON.stringify(data);
-	console.log(data);
-	
-	if(requestType == "GET" || requestType == "DELETE") {
-		$.ajax({
-			type: requestType,
-			url: url,
-			data: data
-			}).done(function (data) {
-			console.log(data);
-	} else {
-		$.ajax({
-			type: requestType,
-			url: url,
-			data: data,
-			contentType: "application/json",
-			dataType: "json"
-			}).done(function (data) {
-			console.log(data);
-	});
-	}
-};
-
-function ClientAPI(eventBus) {
+function ChatController(eventBus) {
 	this.user = new user(eventBus);
 	this.eventBus = eventBus;
 };
-ClientAPI.prototype.register = function (registrationDTO) {	
+ChatController.prototype.register = function (registrationDTO) {	
 	var data = JSON.stringify(registrationDTO);
 	console.log(data);
 	
@@ -137,7 +113,7 @@ ClientAPI.prototype.register = function (registrationDTO) {
 		console.log(data);
 	});
 };
-ClientAPI.prototype.login = function (loginInfo) {
+ChatController.prototype.login = function (loginInfo) {
 	var data = JSON.stringify(loginInfo);
 	console.log(data);
 	
@@ -151,7 +127,7 @@ ClientAPI.prototype.login = function (loginInfo) {
 		console.log(data);
 	});
 };
-ClientAPI.prototype.logout = function (token) {
+ChatController.prototype.logout = function (token) {
 	var data = JSON.stringify(token);
 	console.log(data);
 	
@@ -162,7 +138,7 @@ ClientAPI.prototype.logout = function (token) {
 		console.log(data);
 	});
 };
-ClientAPI.prototype.creteChatRoom = function (chatRoomRequest) {
+ChatController.prototype.creteChatRoom = function (chatRoomRequest) {
 	var data = JSON.stringify(chatRoomRequest);
 	console.log(data);
 	
