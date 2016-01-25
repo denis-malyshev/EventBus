@@ -1,4 +1,4 @@
-function user(eventBus) {
+function User(eventBus) {
 	this.id = 0;
 	this.token = null;
 	this.email = null;
@@ -13,4 +13,9 @@ function user(eventBus) {
 	eventBus.registerConsumer("SUCCESSFUL_LOGIN", function (token) {
 		this.token = token;
 	});
+};
+
+function Model(eventBus) {
+	this.eventBus = eventBus;
+	this.user = new User(eventBus);
 };

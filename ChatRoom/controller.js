@@ -95,11 +95,18 @@ function readAllChats(token, userId) {
 	});
 };
 
-function ChatController(eventBus) {
-	this.user = new user(eventBus);
+function Controller(eventBus) {
 	this.eventBus = eventBus;
+	
+	this.eventBus.registerConsumer("REGISTRATION-ATTEMPT", function (RegistrationDTO) {
+		register(RegistrationDTO);
+	});
+	
+	this.eventBus.registerConsumer("LOGIN-ATTEMPT", function (LoginInfo) {
+		login(LoginInfo);
+	});
 };
-ChatController.prototype.register = function (registrationDTO) {	
+Controller.prototype.register = function (registrationDTO) {	
 	var data = JSON.stringify(registrationDTO);
 	console.log(data);
 	
@@ -110,10 +117,11 @@ ChatController.prototype.register = function (registrationDTO) {
 		contentType: "application/json",
 		dataType: "json"
 	}).done(function (data) {
+		this.eventBus.postMessage("SUCCESSFUL_REGISTRATION", data);
 		console.log(data);
 	});
 };
-ChatController.prototype.login = function (loginInfo) {
+Controller.prototype.login = function (loginInfo) {
 	var data = JSON.stringify(loginInfo);
 	console.log(data);
 	
@@ -124,10 +132,11 @@ ChatController.prototype.login = function (loginInfo) {
 		contentType: "application/json",
 		dataType: "json"
 	}).done(function (data) {
+		this.eventBus.postMessage("SUCCESSFUL_LOGIN", data.key);
 		console.log(data);
 	});
 };
-ChatController.prototype.logout = function (token) {
+Controller.prototype.logout = function (token) {
 	var data = JSON.stringify(token);
 	console.log(data);
 	
@@ -138,7 +147,7 @@ ChatController.prototype.logout = function (token) {
 		console.log(data);
 	});
 };
-ChatController.prototype.creteChatRoom = function (chatRoomRequest) {
+Controller.prototype.creteChatRoom = function (chatRoomRequest) {
 	var data = JSON.stringify(chatRoomRequest);
 	console.log(data);
 	

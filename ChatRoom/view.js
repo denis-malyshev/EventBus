@@ -1,5 +1,5 @@
-function ChatView(eventBus) {
-	this.eventBus = eventBus;
+function View(eventBus) {
+	this.eventBus = eventBus;	
 };
 View.prototype.renderRegistrationComp = function () {
 	var divId = "registration-form";
@@ -12,10 +12,6 @@ View.prototype.renderRegistrationComp = function () {
 	'Password:</br><input type="password" id="register-pwd"></br>' +
 	'<button id="registerBtn">Register</button></br>');
 	
-	this.eventBus.registerConsumer("REGISTRATION-ATTEMPT", function (RegistrationDTO) {
-		register(RegistrationDTO);
-	});
-	
 	$(document).ready(function () {
 		$("#registerBtn").click(function () {
 			this.eventBus.postMessage("REGISTRATION-ATTEMPT", 
@@ -23,7 +19,7 @@ View.prototype.renderRegistrationComp = function () {
 		});
 	});
 };
-ChatView.prototype.renderLoginComp = function () {
+View.prototype.renderLoginComp = function () {
 	var divId = "login-form";
 	var innerHTML = '<div id="' + divId + '" align="center"></div>';
 	document.body.innerHTML += innerHTML;
@@ -33,20 +29,16 @@ ChatView.prototype.renderLoginComp = function () {
 	'Password:</br><input type="password" id="login-pwd"></br>' +
 	'<button id="loginBtn">Login</button>');
 	
-	this.eventBus.registerConsumer("LOGIN", function (LoginInfo) {
-		login(LoginInfo);
-	});
-	
 	$(document).ready(function () {
 		$("#loginBtn").click(function () {
-			this.eventBus.postMessage("LOGIN", 
+			this.eventBus.postMessage("LOGIN-ATTEMPT", 
 			new LoginInfo($("#login-email").val(), $("#login-pwd").val()));
 			logoutComp(eventBus);
 			createChatRoomComp(eventBus);
 		});
 	});
 };
-ChatView.prototype.logoutComp = function () {
+View.prototype.renderLogoutComp = function () {
 	var divId = "logout";
 	var innerHTML = '<div id="' + divId + '" align="right"></div>';
 	document.body.innerHTML = innerHTML;

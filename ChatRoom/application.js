@@ -2,9 +2,9 @@ function app(/*users, chat, */eventBus) {
     
     return {
         "launch": function () {
-			new user(eventBus);
 			new registrationComp(eventBus);
 			new loginComp(eventBus);
+			
 			//new logout(eventBus);
             /*new ChatRoomView(chat.id, eventBus);
             new ChatRoomService(chat, eventBus);

@@ -1,6 +1,8 @@
-function ChatRoom(id) {
-    this.messages = [];
+function ChatRoom(name) {
     this.id ="chat-" + id;
+	this.name = name;
+    this.messages = [];
+	this.users = {};
 };
 ChatRoom.prototype.addMessage = function (message) {
     var length = this.messages.length;
@@ -10,6 +12,16 @@ ChatRoom.prototype.addMessage = function (message) {
         time: message.time
     };
 }
+ChatRoom.prototype.joinUser = function (user) {
+	this.users.push(user);
+}
+ChatRoom.prototype.deleteUser = function (userId) {
+	for (var i = 0; i < users.length; i++) {
+		if (users[i].id == userId) {
+			users.splice(i, 1);
+		}
+	}
+} 
 
 function ChatRoomComponent(chatId) {
     var innerHTML = '<div id="' + chatId + '">empty chat</div>';
