@@ -1,21 +1,15 @@
 function User(eventBus) {
 	this.id = 0;
 	this.token = null;
-	this.email = null;
 	this.eventBus = eventBus;
 	
-	eventBus.registerConsumer("SUCCESSFUL_REGISTRATION", function (registrationData) {
-		this.id = registrationData.id;
-		this.email = registrationData.email;
-		console.log("working");
+	eventBus.registerConsumer("REGISTRATION_SUCCESSFUL", function (id) {
+		this.id = id;
+		console.log(this.id+"ID");
 	});
 	
-	eventBus.registerConsumer("SUCCESSFUL_LOGIN", function (token) {
+	eventBus.registerConsumer("LOGIN_SUCCESSFUL", function (token) {
 		this.token = token;
+		eventBus.postMessage("USER_LOGGED");
 	});
-};
-
-function Model(eventBus) {
-	this.eventBus = eventBus;
-	this.user = new User(eventBus);
 };
