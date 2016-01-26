@@ -1,7 +1,7 @@
 function View(eventBus) {
 	this.eventBus = eventBus;	
 };
-View.prototype.renderRegistrationComp = function () {
+ChatView.prototype.renderRegistrationComp = function () {
 	var divId = "registration-form";
 	var innerHTML = '<div id="' + divId + '" align="center"></div>';
 	document.body.innerHTML = innerHTML;
