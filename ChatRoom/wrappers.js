@@ -18,7 +18,7 @@ function ChatRoomId(chatRoomId) {
 };
 
 function Token(token) {
-	this.token = token;
+	this.key = token;
 };
 
 function ChatRoomRequest(token, userId, name) {
