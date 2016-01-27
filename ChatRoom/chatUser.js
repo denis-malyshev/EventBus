@@ -25,7 +25,7 @@ function ChatUserComponent(divId, chatUser, eventBus) {
     document.body.innerHTML += innerHTML;
     var textAreaId = chatUser.textAreaId;
     var btnId = chatUser.btnId;
-    var chatId=chatUser.chatId;
+    var chatId = chatUser.chatId;
 
     $("#" + divId).html('<div>' + chatUser.name + '</div>' +
         '<div><textarea id="' + textAreaId + '"></textarea></div>'
@@ -33,7 +33,7 @@ function ChatUserComponent(divId, chatUser, eventBus) {
 
     $(document).ready(function () {
         $("#" + btnId).click(function () {
-            eventBus.postMessage("SEND", new Message(chatUser.name, $("#" + textAreaId).val(),chatId));
+            eventBus.postMessage("SEND", new Message(chatUser.name, $("#" + textAreaId).val(), chatId));
             $("#" + textAreaId).val("");
         });
     });

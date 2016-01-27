@@ -1,47 +1,47 @@
 function UserDTO(name, email, password) {
-	this.firstName = name;
-	this.email = email;
-	this.password = password;
+    this.firstName = name;
+    this.email = email;
+    this.password = password;
 };
 
 function LoginInfo(email, password) {
-	this.email = email;
-	this.password = password;
+    this.email = email;
+    this.password = password;
 };
 
 function UserId(userId) {
-	this.userId = userId;
+    this.id = userId;
 };
 
 function ChatRoomId(chatRoomId) {
-	this.chatRoomId = chatRoomId;
+    this.id = chatRoomId;
 };
 
 function Token(token) {
-	this.key = token;
+    this.key = token;
 };
 
 function ChatRoomRequest(token, userId, name) {
-	this.token = token;
-	this.userId = userId;
-	this.name = name;
+    this.token = token;
+    this.userId = userId;
+    this.name = name;
 };
 
 function MessageRequest(token, userId, receiverId, test) {
-	 this.token = token;
-     this.userId = userId;
-     this.receiverId = receiverId;
-     this.text = text;
+    this.token = token;
+    this.userId = userId;
+    this.receiverId = receiverId;
+    this.text = text;
 };
 
 function ReadMessageRequest(token, userId, date) {
-	 this.token = token;
-     this.userId = userId;
-     this.date = date;
+    this.token = token;
+    this.userId = userId;
+    this.date = date;
 };
 
 function UpdateChatRequest(token, userId, chatRoomId) {
-	this.token = token;
+    this.token = token;
     this.userId = userId;
-	this.chatRoomId = chatRoomId;
+    this.chatRoomId = chatRoomId;
 };

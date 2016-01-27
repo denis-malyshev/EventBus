@@ -7,30 +7,30 @@
     <script type="text/javascript" src="eventBus.js"></script>
     <script type="text/javascript" src="chatRoom.js"></script>
     <script type="text/javascript" src="message.js"></script>
-	<script type="text/javascript" src="wrappers.js"></script>
-	<script type="text/javascript" src="controller.js"></script>
-	<script type="text/javascript" src="view.js"></script>
-	<script type="text/javascript" src="model.js"></script>
+    <script type="text/javascript" src="wrappers.js"></script>
+    <script type="text/javascript" src="controller.js"></script>
+    <script type="text/javascript" src="view.js"></script>
+    <script type="text/javascript" src="model.js"></script>
     <script type="text/javascript" src="lib/unit.js"></script>
     <script type="text/javascript">
-        var names = ["Vasya", "Petya", "Masha", "Dima", "Pasha", "Sanya","Danil","Ivan"];
+        var names = ["Vasya", "Petya", "Masha", "Dima", "Pasha", "Sanya", "Danil", "Ivan"];
 
         /*function generationUsers(count) {
-			var users = [];
-            for (var i = 0; i < count; i++) {
-                var k = Math.floor(Math.random() * names.length);
-                users.push(new ChatUser(names[k]));
-            }
-            return users;
-        }*/
+         var users = [];
+         for (var i = 0; i < count; i++) {
+         var k = Math.floor(Math.random() * names.length);
+         users.push(new ChatUser(names[k]));
+         }
+         return users;
+         }*/
 
         var eb = new EventBus();
-	
+
         $(function () {
             //(new ChatUserService(eb));
             //(new app(generationUsers(2),new ChatRoom("24"), eb)).launch();
             //(new app(generationUsers(3),new ChatRoom("234"), eb)).launch();
-			(new app(eb).launch());
+            (new app(eb).launch());
         });
     </script>
 </head>
