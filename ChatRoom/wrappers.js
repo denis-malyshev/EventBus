@@ -34,10 +34,11 @@ function MessageRequest(token, userId, receiverId, test) {
     this.text = text;
 };
 
-function ReadMessageRequest(token, userId, date) {
+function ReadMessageRequest(token, userId, date, chatRoomId) {
     this.token = token;
     this.userId = userId;
     this.date = date;
+	this.chatRoomId = chatRoomId;
 };
 
 function UpdateChatRequest(token, userId, chatRoomId) {

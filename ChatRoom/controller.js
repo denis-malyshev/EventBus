@@ -113,4 +113,25 @@ function Controller(eventbus, user) {
     eventBus.registerConsumer("JOIN_TO_CHAT_ATTEMPT", function (chatRoomId) {
         joinToChat(chatRoomId);
     });
+	
+	var checkMessages = function (chatRoomId) {
+		var readMessageRequest = new ReadMessageRequest(new Token(token), new UserId(id), new Date().getTime(), new ChatRoomId(chatRoomId));
+		var data = JSON.stringify(readMessageRequest);
+        console.log(data);
+		
+		$.ajax({
+            type: "POST",
+            url: "http://localhost:8080/chat-service/message/find_all_by_chat_after",
+            data: data,
+            contentType: "application/json",
+            dataType: "json"
+        }).done(function (data) {
+            //eventBus.postMessage("LOGIN_SUCCESSFUL", data);
+            console.log(data);
+        });
+	};
+	
+	eventBus.registerConsumer("CHECK_MESSAGES", function (chatRoomId) {
+		checkMessages(chatRoomId);
+	});
 };
