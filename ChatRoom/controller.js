@@ -94,7 +94,7 @@ function Controller(eventbus, user) {
         readAllchats();
     });
 
-    var joinToChat = function (chatRoomId) {
+    var joinToChat = function (chatRoomId) {	
         var updateChatRequest = new UpdateChatRequest(new Token(token), new UserId(id), new ChatRoomId(chatRoomId));
         var data = JSON.stringify(updateChatRequest);
         console.log(data);
@@ -105,17 +105,82 @@ function Controller(eventbus, user) {
             data: data,
             contentType: "application/json",
             dataType: "json"
-        }).done(function (data) {
+        }).always(function (data) {
+			eventBus.postMessage("SUCCESSFUL_JOINED", chatRoomId);
             console.log(data);
-        });
+        }).fail(function () {
+			console.log("fail");
+		});
     };
 
     eventBus.registerConsumer("JOIN_TO_CHAT_ATTEMPT", function (chatRoomId) {
         joinToChat(chatRoomId);
     });
 	
+	var leaveChat = function (chatRoomId) {
+		var updateChatRequest = new UpdateChatRequest(new Token(token), new UserId(id), new ChatRoomId(chatRoomId));
+        var data = JSON.stringify(updateChatRequest);
+        console.log(data);
+
+        $.ajax({
+            type: "PUT",
+            url: "http://localhost:8080/chat-service/chat/delete",
+            data: data,
+            contentType: "application/json",
+            dataType: "json",
+        }).always(function (data) {
+            console.log(data);
+        }).fail(function () {
+			console.log("fail");
+		});
+	};
+	
+	eventBus.registerConsumer("LEAVE_FROM_CHAT_ATTEMPT", function (chatRoomId) {
+        leaveChat(chatRoomId);
+    });
+	
+	var sendMessage = function (receiverId, text) {
+		var messageRequest = new MessageRequest(new Token(token), new UserId(id), receiverId, text);
+		var data = JSON.stringify(messageRequest);
+        console.log(data);
+
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8080/chat-service/message/send",
+            data: data,
+            contentType: "application/json",
+            dataType: "json"
+        }).done(function (data) {
+            console.log(data);
+        });
+	};
+	
+	eventBus.registerConsumer("SEND_MESSAGE_ATTEMPT", function (receiverId, text) {
+		sendMessage(receiverId, text);
+	});
+	
+	var sendPrivateMessage = function (receiverId, text) {
+		var messageRequest = new MessageRequest(new Token(token), new UserId(id), receiverId, text);
+		var data = JSON.stringify(messageRequest);
+        console.log(data);
+
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8080/chat-service/message/send_private",
+            data: data,
+            contentType: "application/json",
+            dataType: "json"
+        }).done(function (data) {
+            console.log(data);
+        });
+	};
+	
+	eventBus.registerConsumer("SEND_PRIVATE_MESSAGE_ATTEMPT", function (receiverId, text) {
+		sendMessage(receiverId, text);
+	});
+	
 	var checkMessages = function (chatRoomId) {
-		var readMessageRequest = new ReadMessageRequest(new Token(token), new UserId(id), new Date().getTime(), new ChatRoomId(chatRoomId));
+		var readMessageRequest = new ReadMessageRequest(new Token(token), new UserId(id), new Date(0), new ChatRoomId(chatRoomId));
 		var data = JSON.stringify(readMessageRequest);
         console.log(data);
 		
@@ -126,7 +191,7 @@ function Controller(eventbus, user) {
             contentType: "application/json",
             dataType: "json"
         }).done(function (data) {
-            //eventBus.postMessage("LOGIN_SUCCESSFUL", data);
+            //eventBus.postMessage("MESSAGES_UPDATED", data);
             console.log(data);
         });
 	};

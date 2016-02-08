@@ -20,11 +20,11 @@ function StartView(eventBus) {
 
     $("#" + divId).html('<div><h2>Registration</h2></br>' +
         'Name:</br><input type="text" id="firstName"></br>' +
-        'Email:</br><input type="text" id="register-email"></br>' +
+        'Email:</br><input type="email" id="register-email"></br>' +
         'Password:</br><input type="password" id="register-pwd"></br>' +
         '<button id="registerBtn">Register</button></br>' +
         '<h2>Login</h2>' +
-        'Email:</br><input type="text" id="login-email"></br>' +
+        'Email:</br><input type="email" id="login-email"></br>' +
         'Password:</br><input type="password" id="login-pwd"></br>' +
         '<button id="loginBtn">Login</button>'
     );
@@ -65,21 +65,21 @@ function MainView(eventBus) {
             });
         });
     });
+	
+	eventBus.registerConsumer("SUCCESSFUL_JOINED", function (chatRoomId) {
+		showChatComp(chatRoomId);
+	});
 };
 
-function showChatComp(eventBus, chatRoomName) {
+function showChatComp(chatRoomId) {
     var eventBus = eventBus;
     var divId = "currentChat";
     var innerHTML = '<div id="' + divId + '"></div>';
-    document.body.innerHTML = innerHTML;
+    document.body.innerHTML += innerHTML;
 
-    $("#" + divId).html('<div align="center">' + chatRoomName + '</div>');
-
-    $(document).ready(function () {
-        $("#create-chat").click(function () {
-            eventBus.postMessage("LOGOUT_ATTEMPT", null);
-        });
-    });
+    $("#" + divId).html('<div align="center">Current chat:</br><textarea readonly rows="10" cols="50" align="center"></textarea></br> ' +
+	'<input type="text" align="left">' +
+	'<button>Send</button></div>');
 };
 
 function showChatList(eventBus, chatList) {
@@ -96,11 +96,14 @@ function showChatList(eventBus, chatList) {
     listBox += '</select>';
 
     $("#" + divId).html('<div align="left">Chat-rooms:</br>' + listBox +
-        '<button id="join">Join</button></div>');
+        '<button id="join">Join</button><button id="leave">Leave</button></div>');
 
     $(document).ready(function () {
         $("#join").click(function () {
             eventBus.postMessage("JOIN_TO_CHAT_ATTEMPT", $("#selectChat").val());
+        });
+		$("#leave").click(function () {
+            eventBus.postMessage("LEAVE_FROM_CHAT_ATTEMPT", $("#selectChat").val());
         });
     });
 };
