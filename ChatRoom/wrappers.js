@@ -13,6 +13,12 @@ function UserId(userId) {
     this.id = userId;
 };
 
+function MessageDTO(id, text, time) {
+	this.id = id;
+    this.text = text;
+    this.time = time;
+};
+
 function ChatRoomId(chatRoomId) {
     this.id = chatRoomId;
 };
