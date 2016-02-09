@@ -155,8 +155,8 @@ function Controller(eventbus, user) {
         });
 	};
 	
-	eventBus.registerConsumer("SEND_MESSAGE_ATTEMPT", function (receiverId, text) {
-		sendMessage(receiverId, text);
+	eventBus.registerConsumer("SEND_MESSAGE_ATTEMPT", function (messsageData) {
+		sendMessage(messsageData.receiverId, messsageData.text);
 	});
 	
 	var sendPrivateMessage = function (receiverId, text) {

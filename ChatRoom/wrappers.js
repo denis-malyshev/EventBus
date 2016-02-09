@@ -33,10 +33,15 @@ function ChatRoomRequest(token, userId, name) {
     this.name = name;
 };
 
-function MessageRequest(token, userId, receiverId, test) {
+function MessageRequest(token, userId, receiverId, text) {
     this.token = token;
     this.userId = userId;
     this.receiverId = receiverId;
+    this.text = text;
+};
+
+function MessageData(receiverId, text) {
+	this.receiverId = receiverId;
     this.text = text;
 };
 
