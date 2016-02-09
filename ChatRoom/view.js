@@ -70,7 +70,7 @@ function MainView(eventBus) {
 function showChatComp(eventbus, chatRoomId) {
 	var eventBus = eventbus;
     var innerHTML = '<div id="currentChat"></div>';
-    document.body.innerHTML += innerHTML;
+	$('body').append(innerHTML);
 
     $("#currentChat").html('<div align="center">Current chat:</br><textarea readonly rows="10" cols="50"></textarea></br> ' +
 	'<input type="text" id="messageArea" align="left">' +
@@ -85,7 +85,7 @@ function showChatComp(eventbus, chatRoomId) {
 function showChatList(eventBus, chatList) {
     var eventBus = eventBus;
     var innerHTML = '<div id="chat-list"></div>';
-    document.body.innerHTML += innerHTML;
+	$('body').append(innerHTML);
 
     var listBox = '<select id="selectChat">';
 
