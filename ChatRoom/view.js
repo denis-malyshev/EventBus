@@ -52,7 +52,7 @@ function MainView(eventBus) {
 		
 	document.getElementById("logoutBtn").onclick = function () {
 			eventBus.postMessage("LOGOUT_ATTEMPT", null);
-        };
+    };
 	document.getElementById("create-chat").onclick = function () {
 		eventBus.postMessage("CREATE_CHAT_ATTEMPT", $("#chat-name").val());
 	};
