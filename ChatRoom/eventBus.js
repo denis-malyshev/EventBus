@@ -11,11 +11,10 @@ EventBus.prototype.registerConsumer = function (type, consumer) {
 EventBus.prototype.postMessage = function (type, message) {
     for (var i = 0; i < this.consumers[type].length; i++) {
         var callback = this.consumers[type][i];
-        /*function myCallback() {
-         setTimeout(function () {
-         }, 1000)
-         }*/
-        callback(message);
+		var myCallback = function () {
+			callback(message);
+		};
+		setTimeout(myCallback, 0);
         console.log(new Date().toLocaleTimeString() + ": message posted to " + type);
     }
 };

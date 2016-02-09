@@ -1,6 +1,5 @@
-function Message(sender, textMessgae, chatId) {
-    this.sender = sender;
+function Message(id, textMessage, time) {
+    this.id = id;
     this.textMessage = textMessgae;
-    this.chatId = chatId;
-    this.time = new Date().toLocaleTimeString();
+    this.time = time;
 };
