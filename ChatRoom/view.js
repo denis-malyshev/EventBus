@@ -33,6 +33,9 @@ function StartView(eventbus) {
         $("#registerBtn").click(function () {
             eventBus.postMessage("REGISTRATION_ATTEMPT",
                 new UserDTO($("#firstName").val(), $("#register-email").val(), $("#register-pwd").val()));
+			$("#firstName").val("");
+			$("#register-email").val("");
+			$("#register-pwd").val("");
         });
 		$("#loginBtn").click(function () {
             eventBus.postMessage("LOGIN_ATTEMPT",
@@ -50,20 +53,27 @@ function MainView(eventBus) {
         '</br><div align="left">Create chat:</br><input type="text" id="chat-name"></br>' +
         '<button id="create-chat">Create</button></div>');
 		
-	document.getElementById("logoutBtn").onclick = function () {
+	$(document).ready(function () {
+		document.getElementById("logoutBtn").onclick = function () {
 			eventBus.postMessage("LOGOUT_ATTEMPT", null);
-    };
-	document.getElementById("create-chat").onclick = function () {
-		eventBus.postMessage("CREATE_CHAT_ATTEMPT", $("#chat-name").val());
-	};
-	
-    eventBus.registerConsumer("CHAT_LIST_LOADED", function (chatList) {
-        showChatList(eventBus, chatList);	
-    });
-
-	eventBus.registerConsumer("SUCCESSFUL_JOINED", function (chatRoomId) {
-		showChatComp(eventBus, chatRoomId);		
-	});
+		};
+		document.getElementById("create-chat").onclick = function () {
+			eventBus.postMessage("CREATE_CHAT_ATTEMPT", $("#chat-name").val());
+			$("#chat-name").val("");
+		};
+		
+		eventBus.registerConsumer("CHAT_LIST_LOADED", function (chatList) {
+			showChatList(eventBus, chatList);	
+		});
+			
+		eventBus.registerConsumer("SUCCESSFUL_JOINED", function (chatRoomId) {
+			showChatComp(eventBus, chatRoomId);		
+		});
+		
+		$(document).ready(function () {
+			eventBus.postMessage("MAIN_VIEW_LOAD", null);
+		});
+	});	
 };
 
 function showChatComp(eventbus, chatRoomId) {
@@ -71,13 +81,24 @@ function showChatComp(eventbus, chatRoomId) {
     var innerHTML = '<div id="currentChat"></div>';
 	$('body').append(innerHTML);
 
-    $("#currentChat").html('<div align="center">Current chat:</br><textarea readonly rows="10" cols="50"></textarea></br> ' +
+    $("#currentChat").html('<div align="center">Current chat:</br><textarea readonly id="correspondence" rows="10" cols="50"></textarea></br> ' +
 	'<input type="text" id="messageArea" align="left">' +
-	'<button id="sendMessage">Send</button></div>');
+	'<button id="sendMessage">Send</button></br>' +
+	'<input type="checkbox" name="isPrivate" value=true>send privately to</div>');
+	
+	eventBus.postMessage("CHECK_MESSAGES", chatRoomId);
+	
+	eventBus.registerConsumer(chatRoomId + "_MESSAGES_UPDATED", function (messages) {
+		console.log(Object.keys(messages).length);
+		for (var i = 0; i < Object.keys(messages).length; i++) {
+			$("#correspondence").append(messages[i].text + "&#13;&#10;");
+		}		
+	});
 	
 	document.getElementById("sendMessage").onclick = function () {
-		var messageData = new MessageData(chatRoomId, document.getElementById("messageArea").value);
-		eventbus.postMessage("SEND_MESSAGE_ATTEMPT", messageData);
+		var messageData = new MessageData(chatRoomId, $("#messageArea").val());
+		eventBus.postMessage("SEND_MESSAGE_ATTEMPT", messageData);
+		$("#messageArea").val("");
 	};
 };
 

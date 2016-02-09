@@ -76,17 +76,19 @@ function Controller(eventbus, user) {
     eventBus.registerConsumer("CREATE_CHAT_ATTEMPT", function (chatRoomName) {
         creteChatRoom(chatRoomName);
     });
-
+	
     var readAllchats = function () {
         $.ajax({
             type: "GET",
             url: "http://localhost:8080/chat-service/chat/chats/all?token=" + token + '&userId=' + id
         }).done(function (data) {
-            eventBus.postMessage("CHAT_LIST_LOADED", data);
-        });
+            eventBus.postMessage("CHAT_LIST_LOADED", data);		
+        }).always(function () {
+			console.log("FAIL");
+		});
     };
 
-    eventBus.registerConsumer("USER_LOGGED", function () {
+    eventBus.registerConsumer("MAIN_VIEW_LOAD", function () {
         readAllchats();
     });
 
@@ -180,7 +182,7 @@ function Controller(eventbus, user) {
 	});
 	
 	var checkMessages = function (chatRoomId) {
-		var readMessageRequest = new ReadMessageRequest(new Token(token), new UserId(id), new Date(0), new ChatRoomId(chatRoomId));
+		var readMessageRequest = new ReadMessageRequest(new Token(token), new UserId(id), new Date(new Date().getTime() - 1000 * 5), new ChatRoomId(chatRoomId));
 		var data = JSON.stringify(readMessageRequest);
         console.log(data);
 		
@@ -191,12 +193,16 @@ function Controller(eventbus, user) {
             contentType: "application/json",
             dataType: "json"
         }).done(function (data) {
-            //eventBus.postMessage("MESSAGES_UPDATED", data);
+            eventBus.postMessage(chatRoomId + "_MESSAGES_UPDATED", data);
             console.log(data);
         });
-	};
+	};	
 	
 	eventBus.registerConsumer("CHECK_MESSAGES", function (chatRoomId) {
-		checkMessages(chatRoomId);
+		var messageChecker = function () {
+			checkMessages(chatRoomId);
+		};
+		
+		setInterval(messageChecker, 1000 * 5);
 	});
 };
