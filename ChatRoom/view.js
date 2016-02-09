@@ -50,18 +50,17 @@ function MainView(eventBus) {
         '</br><div align="left">Create chat:</br><input type="text" id="chat-name"></br>' +
         '<button id="create-chat">Create</button></div>');
 		
-
-    eventBus.registerConsumer("CHAT_LIST_LOADED", function (chatList) {
-        showChatList(eventBus, chatList);
-
-		document.getElementById("logoutBtn").onclick = function () {
+	document.getElementById("logoutBtn").onclick = function () {
 			eventBus.postMessage("LOGOUT_ATTEMPT", null);
         };
-		document.getElementById("create-chat").onclick = function () {
-			eventBus.postMessage("CREATE_CHAT_ATTEMPT", $("#chat-name").val());
-		};
-    });
+	document.getElementById("create-chat").onclick = function () {
+		eventBus.postMessage("CREATE_CHAT_ATTEMPT", $("#chat-name").val());
+	};
 	
+    eventBus.registerConsumer("CHAT_LIST_LOADED", function (chatList) {
+        showChatList(eventBus, chatList);	
+    });
+
 	eventBus.registerConsumer("SUCCESSFUL_JOINED", function (chatRoomId) {
 		showChatComp(eventBus, chatRoomId);		
 	});
@@ -70,7 +69,7 @@ function MainView(eventBus) {
 function showChatComp(eventbus, chatRoomId) {
 	var eventBus = eventbus;
     var innerHTML = '<div id="currentChat"></div>';
-    document.body.innerHTML += innerHTML;
+	$('body').append(innerHTML);
 
     $("#currentChat").html('<div align="center">Current chat:</br><textarea readonly rows="10" cols="50"></textarea></br> ' +
 	'<input type="text" id="messageArea" align="left">' +
@@ -85,7 +84,7 @@ function showChatComp(eventbus, chatRoomId) {
 function showChatList(eventBus, chatList) {
     var eventBus = eventBus;
     var innerHTML = '<div id="chat-list"></div>';
-    document.body.innerHTML += innerHTML;
+	$('body').append(innerHTML);
 
     var listBox = '<select id="selectChat">';
 
