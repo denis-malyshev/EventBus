@@ -91,7 +91,8 @@ function showChatComp(eventbus, chatRoomId) {
 	eventBus.registerConsumer(chatRoomId + "_MESSAGES_UPDATED", function (messages) {
 		console.log(Object.keys(messages).length);
 		for (var i = 0; i < Object.keys(messages).length; i++) {
-			$("#correspondence").append(messages[i].text + "&#13;&#10;");
+			var text = messages[i].sender + ": " + messages[i].text;
+			$("#correspondence").append(text + "&#13;&#10;");
 		}		
 	});
 	
