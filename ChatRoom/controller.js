@@ -177,8 +177,8 @@ function Controller(eventbus, user) {
         });
 	};
 	
-	eventBus.registerConsumer("SEND_PRIVATE_MESSAGE_ATTEMPT", function (receiverId, text) {
-		sendMessage(receiverId, text);
+	eventBus.registerConsumer("SEND_PRIVATE_MESSAGE_ATTEMPT", function (messsageData) {
+		sendPrivateMessage(messsageData.receiverId, messsageData.text);
 	});
 	
 	var checkMessages = function (chatRoomId) {
@@ -204,5 +204,75 @@ function Controller(eventbus, user) {
 		};
 		
 		setInterval(messageChecker, 1000 * 5);
+	});
+	
+	var checkSentPrivateMessages = function (chatRoomId) {
+		var readMessageRequest = new ReadMessageRequest(new Token(token), new UserId(id), new Date(new Date().getTime() - 1000 * 5), new ChatRoomId(chatRoomId));
+		var data = JSON.stringify(readMessageRequest);
+        console.log(data);
+		
+		$.ajax({
+            type: "POST",
+            url: "http://localhost:8080/chat-service/message/find_all_sent_private",
+            data: data,
+            contentType: "application/json",
+            dataType: "json"
+        }).done(function (data) {
+            eventBus.postMessage(chatRoomId + "_SENT_PRIVATE_MESSAGES_UPDATED", data);
+            console.log(data);
+        });
+	};
+	
+	eventBus.registerConsumer("CHECK_SENT_PRIVATE_MESSAGES", function (chatRoomId) {
+		var messageChecker = function () {
+			checkSentPrivateMessages(chatRoomId);
+		};
+		
+		setInterval(messageChecker, 1000 * 5);
+	});
+	
+	var checkReceivedPrivateMessages = function (chatRoomId) {
+		var readMessageRequest = new ReadMessageRequest(new Token(token), new UserId(id), new Date(new Date().getTime() - 1000 * 5), new ChatRoomId(chatRoomId));
+		var data = JSON.stringify(readMessageRequest);
+        console.log(data);
+		
+		$.ajax({
+            type: "POST",
+            url: "http://localhost:8080/chat-service/message/find_all_received_private",
+            data: data,
+            contentType: "application/json",
+            dataType: "json"
+        }).done(function (data) {
+            eventBus.postMessage(chatRoomId + "_RECEIVED_PRIVATE_MESSAGES_UPDATED", data);
+            console.log(data);
+        });
+	};
+	
+	eventBus.registerConsumer("CHECK_RECEIVED_PRIVATE_MESSAGES", function (chatRoomId) {
+		var messageChecker = function () {
+			checkReceivedPrivateMessages(chatRoomId);
+		};
+		
+		setInterval(messageChecker, 1000 * 5);
+	});
+	
+	var readAllUsersInChat = function (chatRoomId) {
+		$.ajax({
+            type: "GET",
+            url: "http://localhost:8080/chat-service/user/find_by_chat/" + chatRoomId + "?token=" + token + '&userId=' + id
+        }).done(function (data) {
+            
+        }).always(function (data) {
+			eventBus.postMessage(chatRoomId + "_USERS_UPDATED", data);
+			console.log(data);
+		});
+	};
+	
+	eventBus.registerConsumer("CHECK_USERS", function (chatRoomId) {
+		var userChecker = function () {
+			readAllUsersInChat(chatRoomId);
+		}; 
+		
+		setInterval(userChecker, 1000 * 5);
 	});
 };

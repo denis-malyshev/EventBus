@@ -84,23 +84,68 @@ function showChatComp(eventbus, chatRoomId) {
     $("#currentChat").html('<div align="center">Current chat:</br><textarea readonly id="correspondence" rows="10" cols="50"></textarea></br> ' +
 	'<input type="text" id="messageArea" align="left">' +
 	'<button id="sendMessage">Send</button></br>' +
-	'<input type="checkbox" name="isPrivate" value=true>send privately to</div>');
+	'<input type="checkbox" id="private" name="isPrivate" value=true>send privately to: <div id="user-list"></div></div>');
 	
 	eventBus.postMessage("CHECK_MESSAGES", chatRoomId);
+	eventBus.postMessage("CHECK_SENT_PRIVATE_MESSAGES", chatRoomId);
+	eventBus.postMessage("CHECK_RECEIVED_PRIVATE_MESSAGES", chatRoomId);
 	
 	eventBus.registerConsumer(chatRoomId + "_MESSAGES_UPDATED", function (messages) {
-		console.log(Object.keys(messages).length);
 		for (var i = 0; i < Object.keys(messages).length; i++) {
 			var text = messages[i].sender + ": " + messages[i].text;
 			$("#correspondence").append(text + "&#13;&#10;");
 		}		
 	});
 	
+	eventBus.registerConsumer(chatRoomId + "_SENT_PRIVATE_MESSAGES_UPDATED", function (messages) {
+		for (var i = 0; i < Object.keys(messages).length; i++) {
+			var text ="You to " + messages[i].receiver + ": " + messages[i].text;
+			$("#correspondence").append(text + "&#13;&#10;");
+		}		
+	});
+	
+	eventBus.registerConsumer(chatRoomId + "_RECEIVED_PRIVATE_MESSAGES_UPDATED", function (messages) {
+		for (var i = 0; i < Object.keys(messages).length; i++) {
+			var text = messages[i].sender + " to you: " + messages[i].text;
+			$("#correspondence").append(text + "&#13;&#10;");
+		}		
+	});
+	
+	eventBus.postMessage("CHECK_USERS", chatRoomId);
+	
+	eventBus.registerConsumer(chatRoomId + "_USERS_UPDATED", function (userList) {
+		showUserList("user-list", userList);
+	});
+	
 	document.getElementById("sendMessage").onclick = function () {
-		var messageData = new MessageData(chatRoomId, $("#messageArea").val());
-		eventBus.postMessage("SEND_MESSAGE_ATTEMPT", messageData);
+		var receiverId;
+		var type;
+		var PRIVATE_MESSAGE = "SEND_PRIVATE_MESSAGE_ATTEMPT";
+		var MESSAGE = "SEND_MESSAGE_ATTEMPT";
+		
+		if (document.getElementById("private").checked) {
+			receiverId = $("#selectUser").val();
+			type = PRIVATE_MESSAGE;
+		} else {
+			receiverId = chatRoomId;
+			type = MESSAGE;
+		}
+		
+		var messageData = new MessageData(receiverId, $("#messageArea").val());
+		eventBus.postMessage(type, messageData);
 		$("#messageArea").val("");
 	};
+};
+
+function showUserList(divId, userList) {
+	var listBox = '<select id="selectUser">';
+	
+	for (var i = 0; i < Object.keys(userList).length; i++) {
+        listBox += '<option value="' + userList[i].id + '">' + userList[i].firstName + '</option>';
+    }
+    listBox += '</select>';
+	
+	$("#" + divId).html(listBox);
 };
 
 function showChatList(eventBus, chatList) {

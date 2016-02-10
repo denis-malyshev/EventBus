@@ -13,8 +13,9 @@ function UserId(userId) {
     this.id = userId;
 };
 
-function MessageDTO(id, text, time) {
+function MessageDTO(id, sender, text, time) {
 	this.id = id;
+	this.sender = sender;
     this.text = text;
     this.time = time;
 };
